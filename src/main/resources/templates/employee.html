@@ -23,6 +23,14 @@
 				<label for="name">員工姓名：</label>
 				<span class="fieldError" th:if="${#fields.hasErrors('*{name}')}" th:errors="*{name}"></span>
 				<input type="text" th:field="*{name}" class="form-control" />
+				<label for="name">部門名稱：</label>
+				<select class="form-control select2"
+						th:field="*{department.id}">
+					<option th:each="d:${departments}" 
+							th:value="${d.id}"
+							th:text="${d.name}"
+							th:selected="(${d.id} eq (*{department.id}?:0))" />
+				</select>
 			</div>
 			<br />
 			<input type="submit" th:value="${_method}" class="btn btn-primary" />
@@ -39,7 +47,8 @@
 				<tr th:each="employee : ${employees}">
 					<td th:text="${employee.id}"></td>
 					<td th:text="${employee.name}"></td>
-					<td th:text="${employee.department.name}"></td>
+					<td th:if="${employee.department}" th:text="${employee.department.name}"></td>
+					<td th:unless="${employee.department}">無部門</td>
 					<td>
 						<a th:href="@{/employee/{id}(id=${employee.id})}">編輯</a>
 					</td>
