@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<title>Supplier 維護</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+</head>
+<body>
+	<div class="container my-2">
+		<div th:include="header :: header"></div>
+		<h1>Supplier 維護</h1>
+		<form action="#" 
+			  th:action="@{/supplier/}" 
+			  th:object="${supplier}"
+			  th:method="${_method}">
+			<div class="form_group">
+				<!-- id 隱藏欄位 -->
+				<input type="hidden" th:field="*{id}"/>
+				<label for="name">供應商名稱：</label>
+				<span class="fieldError" th:if="${#fields.hasErrors('*{name}')}" th:errors="*{name}"></span>
+				<input type="text" th:field="*{name}" class="form-control" />
+			</div>
+			<br />
+			<input type="submit" th:value="${_method}" class="btn btn-primary" />
+		</form>
+		<p />
+		<h1>Supplier 列表</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>序號</th><th>供應商</th><th>編輯</th><th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="supplier : ${suppliers}">
+					<td th:text="${supplier.id}"></td>
+					<td th:text="${supplier.name}"></td>
+					<td>
+						<a th:href="@{/supplier/{id}(id=${supplier.id})}">編輯</a>
+					</td>
+					<td>
+						<a th:href="@{/supplier/delete/{id}(id=${supplier.id})}">刪除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:include="footer :: footer"></div>
+	</div>
+</body>
+</html>
