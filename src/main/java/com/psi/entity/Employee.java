@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employees")
@@ -17,6 +18,7 @@ public class Employee {
 	private Long id;
 	
 	@Column
+	@Size(min = 2, max = 50, message = "{employee.name.size}")
 	private String name;
 	
 	@ManyToOne
