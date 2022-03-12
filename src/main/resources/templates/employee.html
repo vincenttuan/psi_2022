@@ -47,7 +47,10 @@
 				<tr th:each="employee : ${employees}">
 					<td th:text="${employee.id}"></td>
 					<td th:text="${employee.name}"></td>
-					<td th:if="${employee.department}" th:text="${employee.department.name}"></td>
+					<td th:if="${employee.department}">
+						<a th:href="@{/department/{id}(id=${employee.department.id})}" th:text="${employee.department.name}" />
+						&nbsp;
+					</td>
 					<td th:unless="${employee.department}">無部門</td>
 					<td>
 						<a th:href="@{/employee/{id}(id=${employee.id})}">編輯</a>
