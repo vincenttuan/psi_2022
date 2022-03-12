@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.psi.entity.Purchase;
-import com.psi.entity.Supplier;
 import com.psi.repository.EmployeeRepository;
 import com.psi.repository.PurchaseRepository;
 import com.psi.repository.SupplierRepository;

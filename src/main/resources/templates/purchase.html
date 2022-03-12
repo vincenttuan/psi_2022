@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<title>Purchase 維護</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+</head>
+<body>
+	<div class="container my-2">
+		<div th:include="header :: header"></div>
+		<h1>Purchase 維護</h1>
+		<form action="#" 
+			  th:action="@{/purchase/}" 
+			  th:object="${purchase}"
+			  th:method="${_method}">
+			<div class="form_group">
+				<!-- id 隱藏欄位 -->
+				<input type="hidden" th:field="*{id}"/>
+				<label for="name">採購日期：</label>
+				<input type="date"
+					   th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+					   th:field="*{date}" class="form-control" />
+			</div>
+			<div class="form_group">
+				<label for="name">供應商：</label>
+				<select class="form-control" th:field="*{supplier.id}" >
+					<option th:each="c:${suppliers}" th:value="${c.id}" th:text="${c.name}" />
+				</select>
+			</div>
+			<div class="form_group">
+				<label for="name">員工：</label>
+				<select class="form-control" th:field="*{employee.id}" >
+					<option th:each="e:${employees}" th:value="${e.id}" th:text="${e.name}" />
+				</select>
+			</div>
+			<br />
+			<input type="submit" th:value="${_method}" class="btn btn-primary" />
+		</form>
+		<p />
+		<h1>Purchase 列表</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>序號</th><th>採購日期</th><th>供應商</th><th>員工</th><th>編輯</th><th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="purchase : ${purchases}">
+					<td th:text="${purchase.id}"></td>
+					<td th:text="${purchase.date}"></td>
+					<td th:text="${purchase.supplier.name}"></td>
+					<td th:text="${purchase.employee.name}"></td>
+					<td>
+						<a th:href="@{/purchase/{id}(id=${purchase.id})}">編輯</a>
+					</td>
+					<td>
+						<a th:href="@{/purchase/delete/{id}(id=${purchase.id})}">刪除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:include="footer :: footer"></div>
+	</div>
+</body>
+</html>

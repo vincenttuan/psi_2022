@@ -26,6 +26,7 @@ public class Purchase {
 	@Column
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	// Homework:加上日期不可小於今日的限制
 	private Date date;
 	
 	@ManyToOne
