@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +32,7 @@ public class Purchase {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@FutureOrPresent(message = "{purchase.date.futureOrPresent}")
+	@FutureOrPresent(message = "{purchase.date.future}")
 	@NotNull(message = "{purchase.date.notnull}")
 	private Date date;
 	

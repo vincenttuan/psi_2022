@@ -13,6 +13,7 @@
 	<div class="container my-2">
 		<div th:include="header :: header"></div>
 		<h1>Purchase 維護</h1>
+		<div th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></div>
 		<form action="#" 
 			  th:action="@{/purchase/}" 
 			  th:object="${purchase}"
@@ -23,7 +24,7 @@
 				<label for="name">採購日期：</label>
 				<span class="fieldError" th:if="${#fields.hasErrors('*{date}')}" th:errors="*{date}"></span>
 				<input type="date"
-					   th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+					   th:value="2022-3-12"
 					   th:field="*{date}" class="form-control" />
 			</div>
 			<div class="form_group">
