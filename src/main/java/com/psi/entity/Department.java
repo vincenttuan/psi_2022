@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "departments")
@@ -20,6 +21,7 @@ public class Department {
 	private Long id;
 	
 	@Column
+	@Size(min = 2, max = 50, message = "{department.name.size}")
 	private String name;
 	
 	@OneToMany(mappedBy = "department")
