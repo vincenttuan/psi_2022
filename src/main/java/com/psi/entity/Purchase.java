@@ -12,8 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "purchases")
@@ -26,7 +30,9 @@ public class Purchase {
 	@Column
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	// Homework:加上日期不可小於今日的限制
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@FutureOrPresent(message = "{purchase.date.futureOrPresent}")
+	@NotNull(message = "{purchase.date.notnull}")
 	private Date date;
 	
 	@ManyToOne

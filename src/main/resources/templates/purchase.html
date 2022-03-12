@@ -21,6 +21,7 @@
 				<!-- id 隱藏欄位 -->
 				<input type="hidden" th:field="*{id}"/>
 				<label for="name">採購日期：</label>
+				<span class="fieldError" th:if="${#fields.hasErrors('*{date}')}" th:errors="*{date}"></span>
 				<input type="date"
 					   th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
 					   th:field="*{date}" class="form-control" />
