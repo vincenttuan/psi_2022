@@ -42,8 +42,22 @@ public class PurchaseController {
 	@Autowired
 	private ProductRepository productRepository;
 	
-	// 採購主檔
-	//--------------------------------------------------------------------
+	/* 採購主檔
+	 * --------------------------------------------------------------------
+	 * GET  -> /            -> index
+	 * GET  -> /{id}        -> get
+	 * GET  -> /delete/{id} -> delete
+	 * POST -> /            -> add
+	 * PUT  -> /            -> update
+	 ----------------------------------------------------------------------
+	 * 採購細目
+	 * --------------------------------------------------------------------
+	 * GET  -> /{pid}/item              -> viewItem
+	 * GET  -> /{pid}/item/{iid}        -> getItem
+	 * GET  -> /{pid}/item/delete/{iid} -> deleteItem
+	 * POST -> /{pid}/item              -> addItem
+	 * PUT  -> /{pid}/item              -> updateItem
+	 ---------------------------------------------------------------------*/
 	@GetMapping("/")
 	public String index(@ModelAttribute Purchase purchase,  Model model) {
 		model.addAttribute("_method", "POST");
@@ -94,14 +108,9 @@ public class PurchaseController {
 		purchaseRepository.save(purchase);
 		return "redirect:./";
 	}
-	/* 採購細目
-	 * --------------------------------------------------------------------
-	 * GET  -> /{pid}/item              -> viewItem
-	 * GET  -> /{pid}/item/{iid}        -> getItem
-	 * GET  -> /{pid}/item/delete/{iid} -> deleteItem
-	 * POST -> /{pid}/item              -> addItem
-	 * PUT  -> /{pid}/item              -> updateItem
-	 ---------------------------------------------------------------------*/
+	
+	/* 採購細目 */
+	
 	@GetMapping("/{pid}/item")
 	public String viewItem(Model model, @PathVariable("pid") Long pid, @ModelAttribute PurchaseItem purchaseItem) {
 		// 同時呈現採購單主檔與採購單細目
