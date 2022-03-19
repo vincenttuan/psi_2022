@@ -23,8 +23,9 @@ public class InventoryValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		OrderItem orderItem = (OrderItem)target;
-		if(orderItem.getAmount() == null || orderItem.getAmount() == 0) {
-			errors.rejectValue("amount", "order_item.amount.required", "請輸入數量");
+		if(orderItem.getAmount() == null || orderItem.getAmount() <= 0) {
+			errors.rejectValue("amount", "order_item.amount.required", "請輸入正確數量");
+			
 		} else {
 			Inventory inventory = productRepository.findInventoryById(orderItem.getProduct().getId());
 			int remaining = 0;

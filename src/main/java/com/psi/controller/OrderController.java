@@ -23,6 +23,7 @@ import com.psi.repository.EmployeeRepository;
 import com.psi.repository.OrderItemRepository;
 import com.psi.repository.OrderRepository;
 import com.psi.repository.ProductRepository;
+import com.psi.validator.InventoryValidator;
 
 @Controller
 @RequestMapping("/order")
@@ -42,6 +43,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private InventoryValidator InventoryValidator;
 	
 	/* 訂單主檔
 	 * --------------------------------------------------------------------
@@ -133,13 +137,29 @@ public class OrderController {
 	}
 	
 	@PostMapping("/{oid}/item")
-	public String addItem(OrderItem orderItem, @PathVariable("oid") long oid)  {
+	public String addItem(OrderItem orderItem, @PathVariable("oid") long oid, BindingResult result, Model model)  {
+		InventoryValidator.validate(orderItem, result);
+		if(result.hasErrors()) {
+			model.addAttribute("order", orderRepository.findById(oid).get());
+			model.addAttribute("orderItem", orderItem);
+			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("_method", "POST");
+			return "orderitem";
+		}
 		orderItemRepository.save(orderItem);
 		return "redirect:./item";
 	}
 	
 	@PutMapping("/{oid}/item")
-	public String updateItem(OrderItem orderItem, @PathVariable("oid") long oid)  {
+	public String updateItem(OrderItem orderItem, @PathVariable("oid") long oid, BindingResult result, Model model)  {
+		InventoryValidator.validate(orderItem, result);
+		if(result.hasErrors()) {
+			model.addAttribute("order", orderRepository.findById(oid).get());
+			model.addAttribute("orderItem", orderItem);
+			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("_method", "PUT");
+			return "orderitem";
+		}
 		orderItemRepository.save(orderItem);
 		return "redirect:./item";
 	}

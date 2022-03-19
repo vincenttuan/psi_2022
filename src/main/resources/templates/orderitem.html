@@ -93,6 +93,9 @@
 				<label for="purchaseItem.amount">數量：</label>
 				<input type="number" th:field="*{amount}" class="form-control" />
 			</div>
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+    			<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>    
+			</div>
 			<input type="submit" 
 				   th:value="(*{id} == null ? '新增訂單項目' : '修改訂單項目')"
 				   class="btn btn-primary">
