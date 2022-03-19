@@ -99,6 +99,7 @@ public class PurchaseController {
 		Purchase purchase = purchaseRepository.findById(pid).get();
 		model.addAttribute("purchase", purchase);
 		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("_method", "POST");
 		return "purchaseitem";
 	}
 }
