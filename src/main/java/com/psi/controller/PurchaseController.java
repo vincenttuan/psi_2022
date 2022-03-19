@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.psi.entity.Purchase;
 import com.psi.repository.EmployeeRepository;
@@ -31,7 +32,8 @@ public class PurchaseController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	
+	// 採購主檔
+	//--------------------------------------------------------------------
 	@GetMapping("/")
 	public String index(@ModelAttribute Purchase purchase,  Model model) {
 		model.addAttribute("_method", "POST");
@@ -82,5 +84,15 @@ public class PurchaseController {
 		purchaseRepository.save(purchase);
 		return "redirect:./";
 	}
-	
+	// 採購細目
+	//--------------------------------------------------------------------
+	@RequestMapping("/{pid}/view/item")
+	@ResponseBody
+	public String viewItem(Model model, @PathVariable("pid") Long pid) {
+		return "view item:" + pid;
+	}
 }
+
+
+
+

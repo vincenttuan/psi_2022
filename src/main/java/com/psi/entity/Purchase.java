@@ -34,7 +34,7 @@ public class Purchase {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent(message = "{purchase.date.future}")
 	@NotNull(message = "{purchase.date.notnull}")
-	private Date date;
+	private Date date = new Date();
 	
 	@ManyToOne
 	@JoinColumn(name = "supplier_id")  // 外鍵
