@@ -31,7 +31,7 @@
 					<td th:text="${ purchase.supplier.name }" ></td>
 					<td th:text="${ purchase.employee.name }" ></td>
 					<td th:text="${ #lists.size(purchase.purchaseItems) }" ></td>
-					<td>--</td>
+					<td th:text="${ purchase.total }"></td>
 				</tr>
 			</tbody>
 		</table>

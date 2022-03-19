@@ -50,6 +50,16 @@ public class Purchase {
 	@OneToMany(mappedBy = "purchase")
 	private Set<PurchaseItem> purchaseItems = new LinkedHashSet<>();
 	
+	// 計算採購單總價
+	public Integer getTotal() {
+		if(purchaseItems.size() == 0) {
+			return 0;
+		}
+		return  purchaseItems.stream()
+				.mapToInt(pi -> pi.getAmount() * pi.getProduct().getCost())
+				.sum();
+	}
+	
 	public Long getId() {
 		return id;
 	}
