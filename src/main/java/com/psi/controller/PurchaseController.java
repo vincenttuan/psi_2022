@@ -113,11 +113,21 @@ public class PurchaseController {
 		return "purchaseitem";
 	}
 	
+	@GetMapping("/{pid}/item/{iid}")
+	public String getItem(Model model, @PathVariable("pid") Long pid, @PathVariable("iid") Long iid) {
+		Purchase purchase = purchaseRepository.findById(pid).get();
+		PurchaseItem purchaseItem = purchaseItemRepository.findById(iid).get();
+		model.addAttribute("purchase", purchase);
+		model.addAttribute("purchaseItem", purchaseItem);
+		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("_method", "PUT");
+		return "purchaseitem";
+	}
+	
 	@PostMapping("/{pid}/item")
-	@ResponseBody
-	public PurchaseItem addItem(PurchaseItem purchaseItem, @PathVariable("pid") long pid)  {
+	public String addItem(PurchaseItem purchaseItem, @PathVariable("pid") long pid)  {
 		purchaseItemRepository.save(purchaseItem);
-		return purchaseItem;
+		return "redirect:./";
 	}
 	
 }
