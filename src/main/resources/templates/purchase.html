@@ -66,7 +66,8 @@
 						<a th:href="@{/purchase/{id}(id=${purchase.id})}">編輯</a>
 					</td>
 					<td>
-						<a th:href="@{/purchase/delete/{id}(id=${purchase.id})}">刪除</a>
+						<a th:if="${ #lists.size(purchase.purchaseItems) == 0 }" 
+						   th:href="@{/purchase/delete/{id}(id=${purchase.id})}">刪除</a>
 					</td>
 				</tr>
 			</tbody>
