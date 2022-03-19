@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.psi.entity.Purchase;
+import com.psi.entity.PurchaseItem;
 import com.psi.repository.EmployeeRepository;
+import com.psi.repository.ProductRepository;
 import com.psi.repository.PurchaseRepository;
 import com.psi.repository.SupplierRepository;
 
@@ -31,6 +33,9 @@ public class PurchaseController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 	
 	// 採購主檔
 	//--------------------------------------------------------------------
@@ -87,9 +92,14 @@ public class PurchaseController {
 	// 採購細目
 	//--------------------------------------------------------------------
 	@RequestMapping("/{pid}/view/item")
-	@ResponseBody
-	public String viewItem(Model model, @PathVariable("pid") Long pid) {
-		return "view item:" + pid;
+	public String viewItem(Model model, @PathVariable("pid") Long pid, @ModelAttribute PurchaseItem purchaseItem) {
+		// 同時呈現採購單主檔與採購單細目
+		// 採購單主檔(會含採購單細目)
+		// 會進行採購單細目的CRUD
+		Purchase purchase = purchaseRepository.findById(pid).get();
+		model.addAttribute("purchase", purchase);
+		model.addAttribute("products", productRepository.findAll());
+		return "purchaseitem";
 	}
 }
 

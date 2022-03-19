@@ -1,6 +1,8 @@
 package com.psi.entity;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,7 +35,6 @@ public class Purchase {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@FutureOrPresent(message = "{purchase.date.future}")
 	@NotNull(message = "{purchase.date.notnull}")
 	private Date date = new Date();
 	
@@ -43,7 +45,11 @@ public class Purchase {
 	@ManyToOne
 	@JoinColumn(name = "employee_id")  // 外鍵
 	private Employee employee;
-
+	
+	// 採購單細目
+	@OneToMany(mappedBy = "purchase")
+	private Set<PurchaseItem> purchaseItems = new LinkedHashSet<>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -74,6 +80,14 @@ public class Purchase {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public Set<PurchaseItem> getPurchaseItems() {
+		return purchaseItems;
+	}
+
+	public void setPurchaseItems(Set<PurchaseItem> purchaseItems) {
+		this.purchaseItems = purchaseItems;
 	}
 	
 	
