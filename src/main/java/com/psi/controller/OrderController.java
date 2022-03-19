@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.psi.entity.Customer;
 import com.psi.entity.Order;
+import com.psi.entity.OrderItem;
 import com.psi.entity.Purchase;
+import com.psi.entity.PurchaseItem;
 import com.psi.repository.CustomerRepository;
 import com.psi.repository.EmployeeRepository;
 import com.psi.repository.OrderItemRepository;
@@ -103,6 +105,43 @@ public class OrderController {
 		}
 		orderRepository.save(order);
 		return "redirect:./";
+	}
+	
+	/* 訂單細目 */
+	
+	@GetMapping("/{oid}/item")
+	public String viewItem(Model model, @PathVariable("oid") Long oid, @ModelAttribute OrderItem orderItem) {
+		model.addAttribute("order", orderRepository.findById(oid).get());
+		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("_method", "POST");
+		return "orderitem";
+	}
+	
+	@GetMapping("/{oid}/item/{iid}")
+	public String getItem(Model model, @PathVariable("oid") Long oid, @PathVariable("iid") Long iid) {
+		model.addAttribute("order", orderRepository.findById(oid).get());
+		model.addAttribute("orderItem", orderItemRepository.findById(iid).get());
+		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("_method", "PUT");
+		return "orderitem";
+	}
+	
+	@GetMapping("/{oid}/item/delete/{iid}")
+	public String deleteItem(@PathVariable("iid") long iid) {
+		orderItemRepository.deleteById(iid);
+		return "redirect:../";
+	}
+	
+	@PostMapping("/{oid}/item")
+	public String addItem(OrderItem orderItem, @PathVariable("oid") long oid)  {
+		orderItemRepository.save(orderItem);
+		return "redirect:./item";
+	}
+	
+	@PutMapping("/{oid}/item")
+	public String updateItem(OrderItem orderItem, @PathVariable("oid") long oid)  {
+		orderItemRepository.save(orderItem);
+		return "redirect:./item";
 	}
 }
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<title>OrderItem 維護</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+</head>
+<body>
+	<div class="container my-2">
+		<div th:include="header :: header"></div>
+		<h1>Order 主檔資料</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>訂單主檔序號</th>
+					<th>訂單主檔日期</th>
+					<th>客戶</th>
+					<th>經手員工</th>
+					<th>訂單總細目筆數</th>
+					<th>訂購總價</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td th:text="${ order.id }" ></td>
+					<td th:text="${ order.date }" ></td>
+					<td th:text="${ order.customer.name }" ></td>
+					<td th:text="${ order.employee.name }" ></td>
+					<td th:text="${ #lists.size(order.orderItems) }" ></td>
+					<td th:text="${ order.total }"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p />
+		<h1>OrderItem 明細資料</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>流水號</th>
+					<th>明細ID</th>
+					<th>商品ID</th>
+					<th>商品名稱</th>
+					<th>商品價格</th>
+					<th>購買數量</th>
+					<th>小計</th>
+					<th>編輯</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item, itemstat:${order.orderItems}">
+					<td th:text="${ itemstat.index + 1 }" ></td>
+					<td th:text="${ item.id }" ></td>
+					<td th:text="${ item.product.id }" ></td>
+					<td th:text="${ item.product.name }" ></td>
+					<td th:text="${ item.product.price }" ></td>
+					<td th:text="${ item.amount }" ></td>
+					<td th:text="${ item.amount * item.product.price }" ></td>
+					<td>
+						<a th:href="@{/order/{oid}/item/{iid}(oid=${order.id}, iid=${item.id})}"
+						   class="btn btn-success">編輯</a>
+					</td>
+					<td>
+						<a th:href="@{/order/{oid}/item/delete/{iid}(oid=${order.id}, iid=${item.id})}"
+						   class="btn btn-danger">刪除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p />
+		<h1>OrderItem 資料維護</h1>
+		<form th:action="@{/order/{oid}/item(oid=${order.id})}"
+			  th:object="${orderItem}"
+			  th:method="${_method}">
+			<input type="hidden" id="order.id" name="order.id" 
+				   th:value="${oid}" class="form-control" />
+			<div class="form-group" th:if="*{id} != null">
+				<label for="orderItem.id">訂單項目序號：</label>
+				<input type="text" readonly="readonly"
+					   th:field="*{id}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="product.id">商品：</label>
+				<select class="form-control select2" th:field="*{product.id}">
+					<option th:each="p:${products}" th:value="${p.id}" th:text="${p.name} + ' $' + ${p.price}" />
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="purchaseItem.amount">數量：</label>
+				<input type="number" th:field="*{amount}" class="form-control" />
+			</div>
+			<input type="submit" 
+				   th:value="(*{id} == null ? '新增訂單項目' : '修改訂單項目')"
+				   class="btn btn-primary">
+		</form>
+		<div th:include="footer :: footer"></div>
+	</div>
+</body>
+</html>
