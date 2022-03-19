@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "purchase_items")
 public class PurchaseItem {
@@ -25,6 +28,7 @@ public class PurchaseItem {
 	
 	@ManyToOne
 	@JoinColumn(name = "purchase_id")
+	//@JsonIgnoreProperties({"purchaseItems", "supplier", "employee"})
 	private Purchase purchase;
 
 	public Long getId() {

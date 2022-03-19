@@ -40,9 +40,11 @@
 		
 		<p />
 		<h1>PurchaseItem 資料維護</h1>
-		<form th:action="@{/purchase/{pid}/add/item(pid=${purchase.id})}"
+		<form th:action="@{/purchase/{pid}/item(pid=${purchase.id})}"
 			  th:object="${purchaseItem}"
 			  th:method="${_method}">
+			<input type="hidden" id="purchase.id" name="purchase.id" 
+				   th:value="${pid}" class="form-control" />
 			<div class="form-group" th:if="*{id} != null">
 				<label for="purchaseItem.id">採購項目序號：</label>
 				<input type="text" readonly="readonly"
@@ -58,6 +60,9 @@
 				<label for="purchaseItem.amount">數量：</label>
 				<input type="number" th:field="*{amount}" class="form-control" />
 			</div>
+			<input type="submit" 
+				   th:value="(*{id} == null ? '新增採購項目' : '修改採購項目')"
+				   class="btn btn-primary">
 		</form>
 		<div th:include="footer :: footer"></div>
 	</div>

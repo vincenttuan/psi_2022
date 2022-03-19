@@ -60,7 +60,7 @@
 					<td th:text="${purchase.supplier.name}"></td>
 					<td th:text="${purchase.employee.name}"></td>
 					<td>
-						<a th:href="@{/purchase/{id}/view/item(id=${purchase.id})}">採購單明細</a>
+						<a th:href="@{/purchase/{id}/item(id=${purchase.id})}">採購單明細</a>
 					</td>
 					<td>
 						<a th:href="@{/purchase/{id}(id=${purchase.id})}">編輯</a>

@@ -18,6 +18,7 @@ import com.psi.entity.Purchase;
 import com.psi.entity.PurchaseItem;
 import com.psi.repository.EmployeeRepository;
 import com.psi.repository.ProductRepository;
+import com.psi.repository.PurchaseItemRepository;
 import com.psi.repository.PurchaseRepository;
 import com.psi.repository.SupplierRepository;
 
@@ -27,6 +28,9 @@ public class PurchaseController {
 	
 	@Autowired
 	private PurchaseRepository purchaseRepository;
+	
+	@Autowired
+	private PurchaseItemRepository purchaseItemRepository;
 	
 	@Autowired
 	private SupplierRepository supplierRepository;
@@ -89,9 +93,15 @@ public class PurchaseController {
 		purchaseRepository.save(purchase);
 		return "redirect:./";
 	}
-	// 採購細目
-	//--------------------------------------------------------------------
-	@RequestMapping("/{pid}/view/item")
+	/* 採購細目
+	 * --------------------------------------------------------------------
+	 * GET  -> /{pid}/item              -> viewItem
+	 * GET  -> /{pid}/item/{iid}        -> getItem
+	 * GET  -> /{pid}/item/delete/{iid} -> deleteItem
+	 * POST -> /{pid}/item              -> addItem
+	 * PUT  -> /{pid}/item              -> updateItem
+	 ---------------------------------------------------------------------*/
+	@GetMapping("/{pid}/item")
 	public String viewItem(Model model, @PathVariable("pid") Long pid, @ModelAttribute PurchaseItem purchaseItem) {
 		// 同時呈現採購單主檔與採購單細目
 		// 採購單主檔(會含採購單細目)
@@ -102,6 +112,14 @@ public class PurchaseController {
 		model.addAttribute("_method", "POST");
 		return "purchaseitem";
 	}
+	
+	@PostMapping("/{pid}/item")
+	@ResponseBody
+	public PurchaseItem addItem(PurchaseItem purchaseItem, @PathVariable("pid") long pid)  {
+		purchaseItemRepository.save(purchaseItem);
+		return purchaseItem;
+	}
+	
 }
 
 
